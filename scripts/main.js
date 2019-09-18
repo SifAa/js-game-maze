@@ -1,10 +1,7 @@
 
 let canvas = document.querySelector("#canvas");
-let create = document.querySelector("#btn");
 
 let ctx = canvas.getContext('2d');
-
-create.addEventListener("click", getlvl);
 
 // definer variabler
 let x;
@@ -20,7 +17,8 @@ let l = -4
 
 let lvl;
 
-let tileSize;
+let tileSize = 50;
+
 
 // hardcode spillets plader
 let maze;
@@ -66,24 +64,24 @@ let maze2 =
 let maze3 = 
 [
     [1, 1, win, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, l, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, p],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+    [1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1],
+    [1, l, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, l, 1],
+    [1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1],
+    [1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, p],
+    [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, l, 1, 0, 1, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ];
 let mazeOver = 
@@ -114,45 +112,45 @@ let mazeOver =
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
+let mazeWin = 
+[
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
 
-
-
-function getlvl() {
-    lvl = document.querySelector("#lvl").value;
-    grid();
-}
 
 function grid(){
-    // for(let i=0; i < 4; i++){
-    //     maze = "maze" + i;
-    //     if(i < 3){
-    //         tileSize = 50;
-    //     } else if(i > 2){
-    //         tileSize = 25;
-    //     } else {
-    //         tileSize = 20;
-    //     }
-    // }
-    switch (lvl) {
-        case "1":
-            maze = maze1;
-            tileSize = 50;
-            playerStart = {x:7, y:9};
-            break;
-        case "2":
-            maze = maze2;
-            tileSize = 50;
-            playerStart = {x:3, y:0};
-            break;
-        case "3":
-            maze = maze3;
-            tileSize = 25;
-            playerStart = {x:19, y:14};
-            break;
-        default:
-            maze = maze0;
-            tileSize = 50;
-            break;
+
+    maze = maze1;
+
+    if (maze == maze3){
+        tileSize = 25;
+    }
+
+    if (maze == mazeWin){
+        tileSize = 25;
+    }
+    
+    if (maze == mazeOver){
+        tileSize = 20;
     }
 
     for(y = 0; y < maze.length; y++){
@@ -169,8 +167,12 @@ function grid(){
                 ctx.fillStyle = "#008200";
                 ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
             } else if(maze[y][x] == l){
-                ctx.fillStyle = "orange";
-                ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                ctx.strokeStyle = "orange";
+                ctx.lineWidth = 5;
+                
+                ctx.beginPath();
+                ctx.arc(x * tileSize+(tileSize/2), y * tileSize+(tileSize/2), tileSize/3, 0, 2 * Math.PI);
+                ctx.stroke();
             } else {
                 ctx.fillStyle = "#ebf8ff";
                 ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
@@ -213,29 +215,64 @@ function move(a, b){
     } else if(maze[player.y+a][player.x+b] == win){
         maze[player.y+a][player.x+b] = p;
         maze[player.y][player.x] = 0;
-        gameWon();
+        triumph1();
+        tWin = window.setTimeout(function() {
+            gameWon();
+        }, 6000);
     } else if(maze[player.y+a][player.x+b] == l){
         maze[player.y+a][player.x+b] = p;
         maze[player.y][player.x] = 0;
+        boom1();
         gameOver();
-    }
+     } else if(maze[player.y+a][player.x+b] == wall){
+        thump1();
+     }
 }
 
 
 // Definer hvad der sker når man vinder og taber spillet
 
 function gameWon(){
-    alert("WIN!!!")
-    location.reload();
+    if(maze1){
+        maze1 = maze2;
+    }
+    if (maze2){
+        maze2 = maze3;
+    }
+    // if (maze3){
+    //     maze3 = mazeWin;
+    // }
+    grid();
 }
 
 function gameOver(){
-    // alert("Game Over")
-    // location.reload();
     maze1 = mazeOver;
     maze2 = mazeOver;
     maze3 = mazeOver;
-    tileSize = 20;
+    timer();
+}
+
+function timer(){
+    window.setTimeout(function() {
+        location.reload();
+    }, 2000);
+}
+
+// Audio functions
+
+function boom1(){
+    let boomAud = new Audio('media/boom1.mp3');
+    boomAud.play();
+}
+
+function thump1(){
+    let thumpAud = new Audio('media/thump1.mp3');
+    thumpAud.play();
+}
+
+function triumph1(){
+    let triumphAud = new Audio('media/triumph1.mp3');
+    triumphAud.play();
 }
 
 
