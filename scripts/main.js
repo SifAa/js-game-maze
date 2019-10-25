@@ -12,13 +12,17 @@ let player;
 let playerStart;
 
 let wall = 1;
-let win = 2;
-let l = -4;
+let win = 2; // where you win the game
+let l = -4; // enemy tile that makes you lose
+let f = 4; // brings you to the next maze
 
 let tileSize = 50;
 
-let fairy = new Image();
-fairy.src = 'media/tiles/fairy.png';
+// Images from timefantasy.net free graphics
+let fairy = new Image(); // For at loade billedet skal der nederst på siden stå
+fairy.src = 'media/tiles/fairy.png'; // window.addEventListener("load", grid)
+let witch = new Image();
+witch.src = 'media/tiles/witch.png'
 
 // hardcode spillets plader
 
@@ -50,7 +54,7 @@ let maze1 =
 ];
 let maze2 =
 [
-    [1, 1, 1, p, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, win, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 0, 0, 0, l, 1, 0, 1],
@@ -59,7 +63,7 @@ let maze2 =
     [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1, win, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, p, 1, 1, 1],
 ];
 let maze3 = 
 [
@@ -157,24 +161,25 @@ function grid(){
         for (x = 0; x < maze[y].length; x++){
             if(maze[y][x] == p){
                 player = {y,x}; // koordinater for player
-                //ctx.drawImage(fairy, x*tileSize, y*tileSize, tileSize, tileSize);
-                ctx.fillStyle = "#f8098c";
-                ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                ctx.drawImage(fairy, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == wall){
-                ctx.fillStyle = "indigo";
+                ctx.fillStyle = "#1c7311";
                 ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-            } else if(maze[y][x] == win){
-                ctx.fillStyle = "#008200";
-                ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+            // } else if(maze[y][x] == win){
+            //     ctx.drawImage(fairyhouse, x*tileSize, y*tileSize, tileSize, tileSize);
+            // } else if(maze[y][x] == f){
+            //     ctx.drawImage(forward, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == l){
-                ctx.strokeStyle = "orange";
-                ctx.lineWidth = 5;
-                
-                ctx.beginPath();
-                ctx.arc(x * tileSize+(tileSize/2), y * tileSize+(tileSize/2), tileSize/3, 0, 2 * Math.PI);
-                ctx.stroke();
+                ctx.drawImage(witch, x*tileSize, y*tileSize, tileSize, tileSize);
+
+                /////// orange circle ///////
+                // ctx.strokeStyle = "orange";
+                // ctx.lineWidth = 5;
+                // ctx.beginPath();
+                // ctx.arc(x * tileSize+(tileSize/2), y * tileSize+(tileSize/2), tileSize/3, 0, 2 * Math.PI);
+                // ctx.stroke();
             } else {
-                ctx.fillStyle = "#ebf8ff";
+                ctx.fillStyle = "#9ee236";
                 ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
             }
         }
@@ -217,7 +222,13 @@ function move(a, b){
         tWin = window.setTimeout(function() {
             gameWon();
         }, 2000);
-    } else if(maze[player.y+a][player.x+b] == l){
+    // } else if(maze[player.y+a][player.x+b] == f){
+    //     maze[player.y+a][player.x+b] = p;
+    //     maze[player.y][player.x] = 0;
+    //     tforward = window.setTimeout(function() {
+    //         mazeWon();
+    //     }, 2000);
+    }else if(maze[player.y+a][player.x+b] == l){
         maze[player.y+a][player.x+b] = p;
         maze[player.y][player.x] = 0;
         boom1();
@@ -230,31 +241,32 @@ function move(a, b){
 
 // Definer hvad der sker når man vinder og taber spillet
 function gameWon(){
+   if (maze == maze3){
+        maze = mazeWin;
+        triumph1();
+    }
+    grid();
+}
+
+function mazeWon(){
     if(maze == maze1){
         maze = maze2;
     }
     else if(maze2 == maze){
         maze = maze3;
     }
-    else if (maze == maze3){
-        maze = mazeWin;
-        triumph1();
-       
-    }
     grid();
 }
 
 function gameOver(){
-    maze1 = mazeOver;
-    maze2 = mazeOver;
-    maze3 = mazeOver;
+    maze = mazeOver;
     timer();
 }
 
 function timer(){
     window.setTimeout(function() {
         location.reload();
-    }, 2000);
+    }, 3000);
 }
 
 // Audio functions
@@ -332,3 +344,4 @@ function mEnemy(){
  
 
 grid();
+window.addEventListener("load", grid);
