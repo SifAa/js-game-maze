@@ -1,4 +1,4 @@
-
+// Draw the game
 let canvas = document.querySelector("#canvas");
 
 let ctx = canvas.getContext('2d');
@@ -10,6 +10,7 @@ let y;
 let p = 8;
 let player;
 let playerStart;
+let strawberryPoint = 0;
 
 let wall = 1;
 let win = 2; // where you win the game
@@ -21,13 +22,19 @@ let tileSize = 50;
 
 // Images from timefantasy.net free graphics
 let fairy = new Image(); // For at loade billedet skal der nederst på siden stå
-fairy.src = 'media/tiles/fairy.png'; // window.addEventListener("load", grid)
+fairy.src = 'media/tiles/fairy_green.png'; // window.addEventListener("load", grid)
 let witch = new Image();
-witch.src = 'media/tiles/witch.png'
+witch.src = 'media/tiles/witch_green.png'
+
+// Image from pixelartmaker.com/gallery
+let treetop = new Image();
+treetop.src = 'media/tiles/bush_green.png'
 
 // My own images
 let strawberry = new Image();
-strawberry.src = 'media/tiles/strawberry.png';
+strawberry.src = 'media/tiles/strawberry_green.png';
+let arrow = new Image();
+arrow.src = 'media/tiles/arrow_green.png'
 
 // hardcode spillets plader
 
@@ -168,12 +175,13 @@ function grid(){
                 player = {y,x}; // koordinater for player
                 ctx.drawImage(fairy, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == wall){
-                ctx.fillStyle = "#1c7311";
-                ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+                ctx.drawImage(treetop, x*tileSize, y*tileSize, tileSize, tileSize);
+                // ctx.fillStyle = "#1c7311";
+                // ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
             // } else if(maze[y][x] == win){
             //     ctx.drawImage(fairyhouse, x*tileSize, y*tileSize, tileSize, tileSize);
-            // } else if(maze[y][x] == f){
-            //     ctx.drawImage(forward, x*tileSize, y*tileSize, tileSize, tileSize);
+            } else if(maze[y][x] == f){
+                ctx.drawImage(arrow, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == s){
                 ctx.drawImage(strawberry, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == l){
@@ -217,64 +225,6 @@ window.addEventListener('keydown', function(event){
             break;
     }
 })
-
-//Definer hvad der sker når man bruger controls
-function move(a, b){
-    if(maze[player.y+a][player.x+b] == 0){
-        maze[player.y+a][player.x+b] = p; //players nye position
-        maze[player.y][player.x] = 0; //players gamle position
-    } else if(maze[player.y+a][player.x+b] == win){
-        maze[player.y+a][player.x+b] = p;
-        maze[player.y][player.x] = 0;
-        tWin = window.setTimeout(function() {
-            gameWon();
-        }, 2000);
-    } else if(maze[player.y+a][player.x+b] == f){
-        maze[player.y+a][player.x+b] = p;
-        maze[player.y][player.x] = 0;
-        tforward = window.setTimeout(function() {
-            mazeWon();
-        }, 2000);
-    }else if(maze[player.y+a][player.x+b] == l){
-        maze[player.y+a][player.x+b] = p;
-        maze[player.y][player.x] = 0;
-        boom1();
-        gameOver();
-     } else if(maze[player.y+a][player.x+b] == wall){
-        thump1();
-     }
-}
-
-
-// Definer hvad der sker når man vinder og taber spillet
-function gameWon(){
-   if (maze == maze3){
-        maze = mazeWin;
-        triumph1();
-    }
-    grid();
-}
-
-function mazeWon(){
-    if(maze == maze1){
-        maze = maze2;
-    }
-    else if(maze2 == maze){
-        maze = maze3;
-    }
-    grid();
-}
-
-function gameOver(){
-    maze = mazeOver;
-    timer();
-}
-
-function timer(){
-    window.setTimeout(function() {
-        location.reload();
-    }, 3000);
-}
 
 // Audio functions
 function boom1(){
