@@ -15,6 +15,7 @@ let wall = 1;
 let win = 2; // where you win the game
 let l = -4; // enemy tile that makes you lose
 let f = 4; // brings you to the next maze
+let s = 5; // point in form of strawberries
 
 let tileSize = 50;
 
@@ -23,6 +24,10 @@ let fairy = new Image(); // For at loade billedet skal der nederst p√• siden st√
 fairy.src = 'media/tiles/fairy.png'; // window.addEventListener("load", grid)
 let witch = new Image();
 witch.src = 'media/tiles/witch.png'
+
+// My own images
+let strawberry = new Image();
+strawberry.src = 'media/tiles/strawberry.png';
 
 // hardcode spillets plader
 
@@ -46,7 +51,7 @@ let maze1 =
     [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
     [1, 0, 0, 0, 1, 0, 0, 1, 1, 1],
-    [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0, 1, s, 1],
     [1, 0, 1, l, 1, 0, 0, 1, 0, 1],
     [1, 0, 1, 1, 1, 0, 1, 1, 0, 1],
     [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
@@ -55,14 +60,14 @@ let maze1 =
 let maze2 =
 [
     [1, 1, 1, win, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1, s, 0, 0, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 0, 0, 0, l, 1, 0, 1],
     [1, 0, 1, 0, 1, 1, 0, 0, 0, 1],
     [1, 0, 0, 0, 1, 1, 0, 1, 0, 1],
     [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
-    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+    [1, 0, 0, 0, s, 1, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, p, 1, 1, 1],
 ];
 let maze3 = 
@@ -169,6 +174,8 @@ function grid(){
             //     ctx.drawImage(fairyhouse, x*tileSize, y*tileSize, tileSize, tileSize);
             // } else if(maze[y][x] == f){
             //     ctx.drawImage(forward, x*tileSize, y*tileSize, tileSize, tileSize);
+            } else if(maze[y][x] == s){
+                ctx.drawImage(strawberry, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == l){
                 ctx.drawImage(witch, x*tileSize, y*tileSize, tileSize, tileSize);
 
@@ -222,12 +229,12 @@ function move(a, b){
         tWin = window.setTimeout(function() {
             gameWon();
         }, 2000);
-    // } else if(maze[player.y+a][player.x+b] == f){
-    //     maze[player.y+a][player.x+b] = p;
-    //     maze[player.y][player.x] = 0;
-    //     tforward = window.setTimeout(function() {
-    //         mazeWon();
-    //     }, 2000);
+    } else if(maze[player.y+a][player.x+b] == f){
+        maze[player.y+a][player.x+b] = p;
+        maze[player.y][player.x] = 0;
+        tforward = window.setTimeout(function() {
+            mazeWon();
+        }, 2000);
     }else if(maze[player.y+a][player.x+b] == l){
         maze[player.y+a][player.x+b] = p;
         maze[player.y][player.x] = 0;
