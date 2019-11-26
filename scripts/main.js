@@ -30,7 +30,11 @@ witch.src = 'media/tiles/witch_green.png'
 let treetop = new Image();
 treetop.src = 'media/tiles/bush_green.png'
 
-// My own images
+// Image from https://images.cdn3.stockunlimited.net/clipart/wooden-house_2008885.jpg
+let house = new Image();
+house.src = 'media/tiles/woodenhouse_green.png'
+
+// My images
 let strawberry = new Image();
 strawberry.src = 'media/tiles/strawberry_green.png';
 let arrow = new Image();
@@ -178,8 +182,8 @@ function grid(){
                 ctx.drawImage(treetop, x*tileSize, y*tileSize, tileSize, tileSize);
                 // ctx.fillStyle = "#1c7311";
                 // ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
-            // } else if(maze[y][x] == win){
-            //     ctx.drawImage(fairyhouse, x*tileSize, y*tileSize, tileSize, tileSize);
+            } else if(maze[y][x] == win){
+                ctx.drawImage(house, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == f){
                 ctx.drawImage(arrow, x*tileSize, y*tileSize, tileSize, tileSize);
             } else if(maze[y][x] == s){
