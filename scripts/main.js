@@ -233,13 +233,7 @@ window.addEventListener('keydown', function(event){
 // Define button
 let btn = document.querySelector("#gamebtn");
 
-btn.addEventListener("click", refresh()); // Does not wait for btn being clicked
-
-function refresh(){
-    // window.setTimeout(function() {
-    //     location.reload();
-    // }, 2000);
-} 
+btn.addEventListener('click', function () { location.reload(); });
 
 // Audio functions
 function witchlaugh(){
