@@ -77,5 +77,3 @@ function gameWon(){
          location.reload();
      }, 3000);
  }
-
- 
