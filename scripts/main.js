@@ -230,10 +230,21 @@ window.addEventListener('keydown', function(event){
     }
 })
 
+// Define button
+let btn = document.querySelector("#gamebtn");
+
+btn.addEventListener("click", refresh()); // Does not wait for btn being clicked
+
+function refresh(){
+    // window.setTimeout(function() {
+    //     location.reload();
+    // }, 2000);
+} 
+
 // Audio functions
-function boom1(){
-    let boomAud = new Audio('media/boom1.mp3');
-    boomAud.play();
+function witchlaugh(){
+    let laughAud = new Audio('media/witchlaugh.mp3');
+    laughAud.play();
 }
 
 function thump1(){

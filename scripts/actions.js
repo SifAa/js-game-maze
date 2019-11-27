@@ -1,4 +1,5 @@
 // Create the actions
+
 //Definer hvad der sker når man bruger controls
 function move(a, b){
     if(maze[player.y+a][player.x+b] == 0){
@@ -23,7 +24,7 @@ function move(a, b){
     }else if(maze[player.y+a][player.x+b] == l){
         maze[player.y+a][player.x+b] = p;
         maze[player.y][player.x] = 0;
-        boom1();
+        witchlaugh();
         gameOver();
      } else if(maze[player.y+a][player.x+b] == wall){
         thump1();
@@ -63,7 +64,12 @@ function gameWon(){
  
  function gameOver(){
      maze = mazeOver;
-     timer();
+     replace();
+ }
+
+ function replace() {
+    var btnValue = document.querySelector("#gamebtn");
+    btnValue.innerHTML = "Try again";
  }
  
  function timer(){
@@ -71,3 +77,5 @@ function gameWon(){
          location.reload();
      }, 3000);
  }
+
+ 
