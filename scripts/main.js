@@ -20,6 +20,8 @@ let s = 5; // point in form of strawberries
 
 let tileSize = 50;
 
+let count = 0;
+
 // Images from timefantasy.net free graphics
 let fairy = new Image(); // For at loade billedet skal der nederst på siden stå
 fairy.src = 'media/tiles/fairy_green.png'; // window.addEventListener("load", grid)
@@ -95,7 +97,7 @@ let maze3 =
     [1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1],
     [1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1],
-    [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, l, 1],
     [1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1],
     [1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, p],
     [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
@@ -252,52 +254,115 @@ function triumph1(){
 }
 
 // moving enemies
-let maze1Enemy = [
-    [6,3],
-    [5,3],
-    [4,3],
-    [3,3],
-    [4,3],
-    [5,3],
-];
-let maze2Enemy = [
-    [3,6],
-    [3,5],
-    [3,4],
-    [3,3],
-    [4,3],
-    [5,3],
-    [6,3],
-    [6,4],
-    [6,5],
-    [6,6],
-    [5,6],
-    [4,6],
-];
-let maze3Enemy = [
-    [16,12],
-    [16,11],
-    [16,10],
-    [16,9],
-    [16,8],
-    [16,7],
-    [16,6],
-    [16,5],
-    [16,4],
-    [16,3],
-    [16,4],
-    [16,5],
-    [16,6],
-    [16,7],
-    [16,8],
-    [16,9],
-    [16,10],
-    [16,11],
-];
+setInterval(mEnemy, 500);
 
-// setInterval(mEnemy, 1000);
+let maze1EnemyPositions = [
+    {posY: 6, posX: 3},
+    {posY: 5, posX: 3},
+    {posY: 4, posX: 3},
+    {posY: 3, posX: 3},
+    {posY: 4, posX: 3},
+    {posY: 5, posX: 3},
+    {posY: 6, posX: 3}
+];
+let maze2EnemyPositions = [
+    {posY: 3, posX: 6},
+    {posY: 3, posX: 5},
+    {posY: 3, posX: 4},
+    {posY: 3, posX: 3},
+    {posY: 4, posX: 3},
+    {posY: 5, posX: 3},
+    {posY: 6, posX: 3},
+    {posY: 6, posX: 4},
+    {posY: 6, posX: 5},
+    {posY: 6, posX: 6},
+    {posY: 5, posX: 6},
+    {posY: 4, posX: 6},
+    {posY: 3, posX: 6}
+];
+let maze3EnemyPositions = [
+    {posY: 16, posX: 12},
+    {posY: 16, posX: 11},
+    {posY: 16, posX: 10},
+    {posY: 16, posX: 9},
+    {posY: 16, posX: 8},
+    {posY: 16, posX: 7},
+    {posY: 16, posX: 6},
+    {posY: 16, posX: 5},
+    {posY: 16, posX: 4},
+    {posY: 16, posX: 3},
+    {posY: 16, posX: 4},
+    {posY: 16, posX: 5},
+    {posY: 16, posX: 6},
+    {posY: 16, posX: 7},
+    {posY: 16, posX: 8},
+    {posY: 16, posX: 9},
+    {posY: 16, posX: 10},
+    {posY: 16, posX: 11},
+    {posY: 16, posX: 12}
+];
+// let maze3EnemyPositions2 = [
+//     {posY: 12, posX: 18},
+//     {posY: 11, posX: 18},
+//     {posY: 10, posX: 18},
+//     {posY: 9, posX: 18},
+//     {posY: 8, posX: 18},
+//     {posY: 7, posX: 18},
+//     {posY: 6, posX: 18},
+//     {posY: 5, posX: 18},
+//     {posY: 6, posX: 18},
+//     {posY: 7, posX: 18},
+//     {posY: 8, posX: 18},
+//     {posY: 9, posX: 18},
+//     {posY: 10, posX: 18},
+//     {posY: 11, posX: 18},
+//     {posY: 12, posX: 18}
+// ]
 
 function mEnemy(){
+    if(maze == maze1){
+        if (maze[maze1EnemyPositions[count].posY][maze1EnemyPositions[count].posX] == p){
+            witchlaugh();
+            gameOver();
+        }
+        maze[maze1EnemyPositions[count].posY][maze1EnemyPositions[count].posX] = l; 
+        if(count >=1){
+            maze[maze1EnemyPositions[count-1].posY][maze1EnemyPositions[count-1].posX]= 0;
+        }
+        if(count == 6){
+            count = 0;  
+        }
+        count++
+        grid();
+    } else if(maze == maze2){
+        if (maze[maze1EnemyPositions[count].posY][maze1EnemyPositions[count].posX] == p){
+            witchlaugh();
+            gameOver();
+        }
+        maze[maze2EnemyPositions[count].posY][maze2EnemyPositions[count].posX] = l; 
+        if(count >=1){
+            maze[maze2EnemyPositions[count-1].posY][maze2EnemyPositions[count-1].posX]= 0;
+        }
+        if(count == 12){
+            count = 0;  
+        }
+        count++
+        grid();
+    } else if(maze == maze3){
+        if (maze[maze1EnemyPositions[count].posY][maze1EnemyPositions[count].posX] == p){
+            witchlaugh();
+            gameOver();
+        }
+        maze[maze3EnemyPositions[count].posY][maze3EnemyPositions[count].posX] = l; 
+        if(count >=1){
+            maze[maze3EnemyPositions[count-1].posY][maze3EnemyPositions[count-1].posX]= 0;
+        }
+        if(count == 18){
+            count = 0;  
+        }
+        count++
+        grid();
+    }
     // if(maze1){ //move enemy repeatedly 3 tiles up and then back down
         
     // }
